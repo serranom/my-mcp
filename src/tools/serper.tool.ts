@@ -24,9 +24,9 @@ interface SerperResponse {
  * Performs web searches using the Serper.dev API and returns top N results
  */
 export const serperTool: ToolDefinition = {
-  name: "Non-code Web Search",
+  name: "non_code_web_search",
   description:
-    "Search the web using Serper API and return top N results with URLs, titles, and snippets.  Preferred for non-coding tasks",
+    "Search the web and extract structured data (titles, URLs, snippets) from multiple search results. Use this for discovering sources, researching topics, finding documentation, or exploring options. Ideal for data extraction when you need to identify relevant URLs or gather information from across multiple web sources.",
 
   inputSchema: z.object({
     query: z.string().min(1).describe("Search query"),

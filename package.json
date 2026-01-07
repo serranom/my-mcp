@@ -11,17 +11,25 @@
     "build": "tsc && chmod 755 build/index.js",
     "dev": "npm run build && node build/index.js"
   },
-  "keywords": ["mcp", "claude", "tools"],
+  "keywords": [
+    "mcp",
+    "claude",
+    "tools"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
+    "@types/turndown": "^5.0.6",
     "dotenv": "^16.4.5",
+    "turndown": "^7.2.2",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
     "typescript": "^5.7.3"
   },
-  "files": ["build"]
+  "files": [
+    "build"
+  ]
 }

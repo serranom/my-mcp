@@ -1,6 +1,5 @@
-import { echoTool } from "./echo.tool.js";
-import { calculatorTool } from "./calculator.tool.js";
 import { serperTool } from "./serper.tool.js";
+import { tightWebFetchTool } from "./tight-web-fetch.tool.js";
 import type { ToolDefinition } from "../types/index.js";
 
 /**
@@ -14,7 +13,6 @@ import type { ToolDefinition } from "../types/index.js";
  * 4. Rebuild the project: npm run build
  */
 export const tools: ToolDefinition[] = [
-  echoTool,
-  calculatorTool,
   serperTool,
+  tightWebFetchTool,
 ];
