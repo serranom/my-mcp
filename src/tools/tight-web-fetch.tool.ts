@@ -1,12 +1,63 @@
 import { z } from "zod";
 import TurndownService from "turndown";
+import * as cheerio from "cheerio";
 import type { ToolDefinition } from "../types/index.js";
+
+/**
+ * Clean HTML by removing unwanted elements and attributes
+ */
+function cleanHtml(html: string): string {
+  const $ = cheerio.load(html);
+
+  // Remove script and style elements
+  $("script").remove();
+  $("style").remove();
+  $("noscript").remove();
+  $("iframe").remove();
+
+  // Remove navigation elements
+  $("nav").remove();
+  $('[role="navigation"]').remove();
+
+  // Remove common UI chrome
+  $("header").remove();
+  $("footer").remove();
+  $("aside").remove();
+
+  // Remove ads and social widgets
+  $('[class*="ad-"]').remove();
+  $('[id*="ad-"]').remove();
+  $('[class*="advertisement"]').remove();
+  $('[class*="social"]').remove();
+  $('[class*="share"]').remove();
+
+  // Remove comments sections
+  $('[class*="comment"]').remove();
+  $('[id*="comment"]').remove();
+
+  // Remove unwanted attributes from all remaining elements
+  $("*").each((_, element) => {
+    const $el = $(element);
+    $el.removeAttr("style");
+    $el.removeAttr("class");
+    $el.removeAttr("id");
+    // Remove event handlers
+    $el.removeAttr("onclick");
+    $el.removeAttr("onload");
+    $el.removeAttr("onerror");
+    $el.removeAttr("onmouseover");
+    $el.removeAttr("onmouseout");
+  });
+
+  return $.html();
+}
 
 /**
  * Tight Web Fetch Tool
  *
  * Fetches a URL and converts HTML content to clean markdown format.
- * Uses the Turndown library for HTML to markdown conversion.
+ * Removes scripts, styles, navigation, ads, and other unwanted elements.
+ * Uses Cheerio for HTML cleaning and Turndown for markdown conversion.
  */
 export const tightWebFetchTool: ToolDefinition = {
   name: "tight_web_fetch",
@@ -43,7 +94,10 @@ export const tightWebFetchTool: ToolDefinition = {
       // Get the HTML content
       const html = await response.text();
 
-      // Convert HTML to markdown using Turndown
+      // Clean the HTML by removing unwanted elements and attributes
+      const cleanedHtml = cleanHtml(html);
+
+      // Convert cleaned HTML to markdown using Turndown
       const turndownService = new TurndownService({
         headingStyle: "atx",
         codeBlockStyle: "fenced",
@@ -51,7 +105,7 @@ export const tightWebFetchTool: ToolDefinition = {
         emDelimiter: "*",
       });
 
-      const markdown = turndownService.turndown(html);
+      const markdown = turndownService.turndown(cleanedHtml);
 
       // Return the markdown content
       return {
