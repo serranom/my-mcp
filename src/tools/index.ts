@@ -1,4 +1,5 @@
 import { serperTool } from "./serper.tool.js";
+import { supabaseBulkTool } from "./supabase-bulk.tool.js";
 import { tightWebFetchTool } from "./tight-web-fetch.tool.js";
 import type { ToolDefinition } from "../types/index.js";
 
@@ -14,5 +15,6 @@ import type { ToolDefinition } from "../types/index.js";
  */
 export const tools: ToolDefinition[] = [
   serperTool,
+  supabaseBulkTool,
   tightWebFetchTool,
 ];
